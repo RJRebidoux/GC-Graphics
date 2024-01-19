@@ -36,10 +36,21 @@ public class Transformations : MonoBehaviour
     {
         float tt = Time.realtimeSinceStartup;
         float cos = Mathf.Cos(tt);
-        Matrix4x4 scale = Matrix4x4.Scale(new Vector3(2.0f, 5.0f, 10.0f));
+        Matrix4x4 scale = Matrix4x4.Scale(new Vector3(2.0f, 1.0f, 1.0f));
         Matrix4x4 rotation = Matrix4x4.Rotate(Quaternion.Euler(0.0f, 0.0f, 45.0f));
-        Matrix4x4 translation = Matrix4x4.Translate(new Vector3(12.0f * cos, 7.0f, 0.0f));
-        Vector3[] newVertices = Transform(translation * rotation * scale, original);
-        mesh.vertices = newVertices;
+        Matrix4x4 translation = Matrix4x4.Translate(new Vector3(5.0f * cos, 0.0f, 0.0f));
+        //Matrix4x4 result = translation;// * rotation * scale;
+        //Matrix4x4 result = translation * rotation * scale;
+
+        // ORDER MATTERS!!! Matrices are multiplied right-to-left, so the right-most matrix will be applied first.
+        // For example, if we rotate then translate, the rotation will be done relative to the world origin,
+        // so the result will be as expected.
+        // However, if we translate first and then rotate, we create distance between the world origin and vertices,
+        // so the rotation appears to greatly distort the vertices
+        //Vector3[] newVertices = Transform(translation * rotation, original); <-- rotate then translate (expected result)
+        //Vector3[] newVertices = Transform(rotation * translation, original); <-- translate then rotate (unexpected result)
+
+        // Generally, the order is scale then rotate then translate
+        mesh.vertices = Transform(translation * rotation * scale, original);
     }
 }
