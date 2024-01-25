@@ -11,6 +11,8 @@ public class Interpolation : MonoBehaviour
     Vector3 s1 = new Vector3( 2.0f, 3.0f, 0.0f);
     Color c0 = Color.red;
     Color c1 = Color.yellow;
+    Quaternion r0 = Quaternion.identity;
+    Quaternion r1 = Quaternion.Euler(0.0f, 0.0f, 90.0f);
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +27,7 @@ public class Interpolation : MonoBehaviour
         float tt = Time.realtimeSinceStartup;
         float nsin = Mathf.Sin(tt) * 0.5f + 0.5f;
         transform.position = Vector3.Lerp(t0, t1, nsin);
+        transform.rotation = Quaternion.Slerp(r0, r1, nsin);
         transform.localScale = Vector3.Lerp(s0, s1, nsin);
         Color color = Color.Lerp(c0, c1, nsin);
         color.a = Mathf.Lerp(1.0f, 0.0f, nsin);
