@@ -7,10 +7,22 @@ public class Transformations : MonoBehaviour
     Mesh mesh;
     Vector3[] original;
 
+    Vector3[] afterTranslation;
+    Vector3[] afterRotation;
+
     void Start()
     {
         mesh = GetComponent<MeshFilter>().mesh;
         original = mesh.vertices;
+
+        Matrix4x4 rotation = Matrix4x4.Rotate(Quaternion.Euler(0.0f, 0.0f, 45.0f));
+        Matrix4x4 translation = Matrix4x4.Translate(new Vector3(5.0f, 0.0f, 0.0f));
+
+        // We get a different outcome depending on whether we rotate or translate first!
+        afterRotation = Transform(rotation, original);
+        afterTranslation = Transform(translation, afterRotation);
+        Debug.Log(afterTranslation);
+        Debug.Log(afterRotation);
     }
 
     Vector3[] Transform(Matrix4x4 matrix, Vector3[] inputVertices)
@@ -35,10 +47,15 @@ public class Transformations : MonoBehaviour
     void Update()
     {
         float tt = Time.realtimeSinceStartup;
-        float cos = Mathf.Cos(tt);
-        Matrix4x4 scale = Matrix4x4.Scale(new Vector3(2.0f, 1.0f, 1.0f));
-        Matrix4x4 rotation = Matrix4x4.Rotate(Quaternion.Euler(0.0f, 0.0f, 45.0f));
-        Matrix4x4 translation = Matrix4x4.Translate(new Vector3(5.0f * cos, 0.0f, 0.0f));
+        float sin = Mathf.Sin(tt);
+
+        Matrix4x4 scale = Matrix4x4.identity;
+        Matrix4x4 rotation = Matrix4x4.identity;
+        Matrix4x4 translation = Matrix4x4.identity;
+
+        //scale = Matrix4x4.Scale(new Vector3(2.0f, 1.0f, 1.0f));
+        rotation = Matrix4x4.Rotate(Quaternion.Euler(0.0f, 0.0f, 45.0f));
+        translation = Matrix4x4.Translate(new Vector3(5.0f * sin, 0.0f, 0.0f));
         //Matrix4x4 result = translation;// * rotation * scale;
         //Matrix4x4 result = translation * rotation * scale;
 
@@ -51,6 +68,8 @@ public class Transformations : MonoBehaviour
         //Vector3[] newVertices = Transform(rotation * translation, original); <-- translate then rotate (unexpected result)
 
         // Generally, the order is scale then rotate then translate
-        mesh.vertices = Transform(translation * rotation * scale, original);
+        //Vector3[] outputVertices = Transform(translation * rotation * scale, original);
+        //Vector3[] outputVertices = Transform(rotation * translation, original);
+        mesh.vertices = afterTranslation;//outputVertices;
     }
 }
