@@ -40,7 +40,7 @@ public class Animation2 : MonoBehaviour
         // Sometimes the "orbiting" effect of translating before rotating may be desirable!
         Matrix4x4 transformation = rotation * translation;
 
-        // We took the transformation of cube and added onto it by combining the matrices.
+        // We took the transformation of Animation1 and added onto it by combining the matrices.
         // This is called "forward kinematics" (kinematics as in motion, forward as in ahead of previous).
         transformation *= Matrix4x4.Translate(new Vector3(5.0f, 5.0f * cos, 0.0f));
 
