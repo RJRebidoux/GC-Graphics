@@ -49,24 +49,17 @@ public class Transformations : MonoBehaviour
         //Matrix4x4 rotation = r1 * r2;
 
         // (q1 * q2 is unnecessary because q1 is x and q2 is z so we could make this into a single quaternion initially)
-        Matrix4x4 rotation = Matrix4x4.Rotate(Quaternion.Euler(tt * 100.0f, 0.0f, 45.0f));
+        //Matrix4x4 rotation = Matrix4x4.Rotate(Quaternion.Euler(tt * 100.0f, 0.0f, 45.0f));
+        Matrix4x4 rotation = Matrix4x4.Rotate(Quaternion.Euler(0.0f, 0.0f, tt * 100.0f));
 
-        Matrix4x4 translation = Matrix4x4.Translate(new Vector3(5.0f * cos, 0.0f, 0.0f));
-        //Matrix4x4 result = translation;// * rotation * scale;
-        //Matrix4x4 result = translation * rotation * scale;
+        Matrix4x4 translation = Matrix4x4.Translate(new Vector3(5.0f, 0.0f, 0.0f));
 
         // Default matrix is a zero-matrix which will cause our vertices to be zero!
         //Matrix4x4 transformation = new Matrix4x4();
-        Matrix4x4 transformation = rotation * Matrix4x4.identity;
-        Debug.Log(transformation);
 
-        // ORDER MATTERS!!! Matrices are multiplied right-to-left, so the right-most matrix will be applied first.
-        // For example, if we rotate then translate, the rotation will be done relative to the world origin,
-        // so the result will be as expected.
-        // However, if we translate first and then rotate, we create distance between the world origin and vertices,
-        // so the rotation appears to greatly distort the vertices
-        //Vector3[] newVertices = Transform(translation * rotation, original); <-- rotate then translate (expected result)
-        //Vector3[] newVertices = Transform(rotation * translation, original); <-- translate then rotate (unexpected result)
+        // Sometimes the "orbiting" effect of translating before rotating may be desirable!
+        Matrix4x4 transformation = rotation * translation;
+        Debug.Log(transformation);
 
         // Generally, the order is scale then rotate then translate
         Vector3[] output = Transform(transformation, original);
