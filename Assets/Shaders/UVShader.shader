@@ -1,18 +1,7 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
-Shader "Unlit/TestShader"
+Shader "Unlit/UVShader"
 {
-    Properties
-    {
-        // Now using color instead of texture for our fragment output
-        _MainTex ("Texture", 2D) = "white" {}
-        //_Color ("Main Color", Color) = (1,1,1,1)
-    }
     SubShader
     {
-        Tags { "RenderType"="Transparent" }
-        LOD 100
-
         Pass
         {
             CGPROGRAM
@@ -52,8 +41,8 @@ Shader "Unlit/TestShader"
             fixed4 frag (v2f i) : SV_Target
             {
                 // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                return col * fixed4(1.0, 0.0, 0.0, 1.0);
+                fixed4 col = fixed4(i.uv.x, i.uv.y, 0.0, 1.0);
+                return col;
             }
             ENDCG
         }
