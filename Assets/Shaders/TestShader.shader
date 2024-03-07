@@ -4,7 +4,9 @@ Shader "Unlit/TestShader"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        // Now using color instead of texture for our fragment output
+        //_MainTex ("Texture", 2D) = "white" {}
+        _Color ("Main Color", Color) = (1,1,1,1)
     }
     SubShader
     {
