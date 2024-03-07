@@ -5,8 +5,8 @@ Shader "Unlit/TestShader"
     Properties
     {
         // Now using color instead of texture for our fragment output
-        //_MainTex ("Texture", 2D) = "white" {}
-        _Color ("Main Color", Color) = (1,1,1,1)
+        _MainTex ("Texture", 2D) = "white" {}
+        //_Color ("Main Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -56,7 +56,7 @@ Shader "Unlit/TestShader"
             {
                 // sample the texture
                 fixed4 col = tex2D(_MainTex, i.uv);
-                return col;
+                return col * fixed4(1.0, 0.0, 0.0, 1.0);
             }
             ENDCG
         }
