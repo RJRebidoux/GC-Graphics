@@ -39,7 +39,7 @@ Shader "Unlit/CustomShader"
             fixed4 _Color;
 
             // Vertex shader (transforms vertex data like positions & normals)
-            v2f vert (appdata v)
+            v2f vert (vertexdata v)
             {
                 v2f o;
 
