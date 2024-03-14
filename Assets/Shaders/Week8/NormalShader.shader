@@ -21,7 +21,7 @@ Shader "Unlit/NormalShader"
             v2f vert (float4 vertex : POSITION, float3 normal : NORMAL)
             {
                 v2f o;
-                o.pos = UnityObjectToClipPos(vertex);\
+                o.pos = UnityObjectToClipPos(vertex);
                 
                 // "object-space" normals -- normals remain exactly as exported in blender (same as CPU)
                 //o.worldNormal = normal;

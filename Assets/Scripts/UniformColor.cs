@@ -9,7 +9,6 @@ public class UniformColor : MonoBehaviour
     void Start()
     {
         material = GetComponent<MeshRenderer>().material;
-        Debug.Log(material.shader);
     }
 
     void Update()
