@@ -40,8 +40,7 @@ Shader "Unlit/UVShader"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // sample the texture
-                fixed4 col = fixed4(i.uv.x, i.uv.y, 0.0, 1.0);
+                fixed4 col = fixed4(i.uv, _SinTime.w * 0.5 + 0.5, 1.0);
                 return col;
             }
             ENDCG

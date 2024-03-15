@@ -1,5 +1,3 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "Unlit/SimplestShader"
 {
     Properties
@@ -14,6 +12,13 @@ Shader "Unlit/SimplestShader"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+
+            // Graphics pipeline:
+            // 1. Upload data from CPU to GPU
+            // 2. Vertex processing (convert vertex positions from object-space to clip-space and forward information to fragment shader)
+            // 3. Rasterization (GPU converts triangles into pixels)
+            // 4. Fragment shader (colour pixels with math)
+            // 5. Presentation (display object on screen)
             
             float4 vert (float4 vertex : POSITION) : SV_POSITION
             {

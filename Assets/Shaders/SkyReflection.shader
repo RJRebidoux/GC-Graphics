@@ -36,7 +36,7 @@ Shader "Unlit/SkyReflection"
                 // sample the default reflection cubemap, using the reflection vector
                 half4 skyData = UNITY_SAMPLE_TEXCUBE(unity_SpecCube0, i.worldRefl);
                 // decode cubemap data into actual color
-                half3 skyColor = DecodeHDR (skyData, unity_SpecCube0_HDR);
+                half3 skyColor = DecodeHDR(skyData, unity_SpecCube0_HDR);
                 // output it!
                 fixed4 c = 0;
                 c.rgb = skyColor;
