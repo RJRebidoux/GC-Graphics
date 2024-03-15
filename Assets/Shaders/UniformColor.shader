@@ -13,7 +13,7 @@ Shader "Unlit/UniformColor"
                 return UnityObjectToClipPos(vertex);
             }
             
-            fixed4 _Color_Color;
+            fixed4 _Color;
 
             fixed4 frag () : SV_Target
             {
