@@ -2,11 +2,6 @@
 
 Shader "Unlit/SimplestShader"
 {
-    Properties
-    {
-        // Color property for material inspector, default to white
-        _Color ("Main Color", Color) = (1,1,1,1)
-    }
     SubShader
     {
         Pass
@@ -19,14 +14,11 @@ Shader "Unlit/SimplestShader"
             {
                 return UnityObjectToClipPos(vertex);
             }
-            
-            // color from the material
-            fixed4 _Color;
 
             // pixel shader, no inputs needed
             fixed4 frag () : SV_Target
             {
-                return _Color;
+                return fixed4(0.0, 1.0, 0.0, 1.0);
             }
             ENDCG
         }
