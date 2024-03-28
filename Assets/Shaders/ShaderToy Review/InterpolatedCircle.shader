@@ -1,4 +1,4 @@
-Shader "Hidden/ShaderToy"
+Shader "Hidden/InterpolatedCircle"
 {
     SubShader
     {
