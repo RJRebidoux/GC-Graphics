@@ -38,13 +38,19 @@ Shader "Hidden/ShaderToy"
 
                 // [0, 1] --> [-1, 1]
                 float2 uv11 = i.uv * 2.0 - 1.0;
+                i.uv.x *= aspect;
                 uv11.x *= aspect;
 
                 float d = length(uv11);
-                float circle = step(d, 1.0);
+                float a = step(d, 1.0);
+                float b = 1.0 - a;
 
-                fixed3 col = fixed3(1.0, 1.0, 1.0);
-                return fixed4(col * circle, 1.0);
+                float nsin = _SinTime.w * 0.5 + 0.5;
+                float tCircle = lerp(a, b, nsin);
+                fixed3 col1 = fixed3(i.uv, 0.0);
+                fixed3 col2 = fixed3(i.uv, 1.0);
+
+                return fixed4(lerp(col1, col2, tCircle), 1.0);
             }
             ENDCG
         }
