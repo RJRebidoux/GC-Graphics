@@ -1,9 +1,5 @@
 Shader "Hidden/Fractal"
 {
-    Properties
-    {
-        _MainTex ("Texture", 2D) = "white" {}
-    }
     SubShader
     {
         // No culling or depth
@@ -14,7 +10,6 @@ Shader "Hidden/Fractal"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-
             #include "UnityCG.cginc"
 
             struct appdata
@@ -37,14 +32,52 @@ Shader "Hidden/Fractal"
                 return o;
             }
 
-            sampler2D _MainTex;
+            float3 palette( float t ) {
+                float3 a = float3(0.5, 0.5, 0.5);
+                float3 b = float3(0.5, 0.5, 0.5);
+                float3 c = float3(1.0, 1.0, 1.0);
+                float3 d = float3(0.263, 0.416, 0.557);
+
+                return a + b * cos( 6.28318 * (c * t + d) );
+            }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
-                // just invert the colors
-                col.rgb = 1 - col.rgb;
-                return col;
+                // aspect-corrected uvs within [-1, 1]
+                //vec2 uv = (fragCoord * 2.0 - iResolution.xy) / iResolution.y;
+                float2 uv = i.uv * 2.0 - 1.0;
+                uv.x *= _ScreenParams.x / _ScreenParams.y;
+    
+                // copy of original uv so we can sample global distance relative to centre (before space repetition)
+                float2 uv0 = uv;
+    
+                // Accumulate colour onto a black background
+                float3 finalColor = float3(0.0, 0.0, 0.0);
+
+                // Continuous time (being lazy by swapping the ShaderToy build-in with Unity built-in)
+                float iTime = _Time.y;
+    
+                // Increase/decrease the iteration count to control number of repetitions
+                for (float i = 0.0; i < 4.0; i++) {
+                    // Repeat space then re-centre uvs
+                    uv = frac(uv * 1.5) - 0.5;
+                
+                    // Combining x^2 and e^-x^2
+                    float d = length(uv) * exp(-length(uv0));
+                
+                    // Animate colours based on distance, iteration count, and time
+                    float3 col = palette(length(uv0) + i*.4 + iTime * 0.4);
+                
+                    // Create ripples
+                    d = sin(d * 8.0 + iTime) / 8.0;
+                    d = abs(d);
+                    d = pow(0.01 / d, 1.2);
+                
+                    // Attenuate colour based on restricted logarithmic curve
+                    finalColor += col * clamp(log(d), 0.01, 0.8);
+                }
+        
+                return fixed4(finalColor, 1.0);
             }
             ENDCG
         }

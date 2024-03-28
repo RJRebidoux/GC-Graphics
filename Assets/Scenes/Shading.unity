@@ -989,7 +989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 206eed193c38dbf46bd980e7caf5a24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effect: {fileID: 2100000, guid: 79989a9511b7a2b4b8ef6e06614fb128, type: 2}
+  effect: {fileID: 2100000, guid: dd0750dda5f8f3941af6575b3b5d6f4a, type: 2}
 --- !u!1 &987527166
 GameObject:
   m_ObjectHideFlags: 0
