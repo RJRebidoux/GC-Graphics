@@ -34,7 +34,17 @@ Shader "Hidden/ShaderToy"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                return fixed4(i.uv, _SinTime.w * 0.5 + 0.5, 1.0);
+                float aspect = _ScreenParams.x / _ScreenParams.y;
+
+                // [0, 1] --> [-1, 1]
+                float2 uv11 = i.uv * 2.0 - 1.0;
+                uv11.x *= aspect;
+
+                float d = length(uv11);
+                float circle = step(d, 1.0);
+
+                fixed3 col = fixed3(1.0, 1.0, 1.0);
+                return fixed4(col * circle, 1.0);
             }
             ENDCG
         }
