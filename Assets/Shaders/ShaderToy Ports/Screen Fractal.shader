@@ -1,4 +1,4 @@
-Shader "Unlit/Object Fractal"
+Shader "Unlit/Screen Fractal"
 {
     SubShader
     {
@@ -41,7 +41,7 @@ Shader "Unlit/Object Fractal"
             fixed4 frag (v2f i) : SV_Target
             {
                 // aspect-corrected uvs within [-1, 1]
-                float2 uv = i.uv * 2.0 - 1.0;
+                float2 uv = (i.vertex.xy / _ScreenParams.xy) * 2.0 - 1.0;
     
                 // copy of original uv so we can sample global distance relative to centre (before space repetition)
                 float2 uv0 = uv;
@@ -71,7 +71,7 @@ Shader "Unlit/Object Fractal"
                     // Attenuate colour based on restricted logarithmic curve
                     finalColor += col * clamp(log(d), 0.01, 0.8);
                 }
-        
+
                 return fixed4(finalColor, 1.0);
             }
             ENDCG
