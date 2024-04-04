@@ -21,6 +21,9 @@ public class FoV : MonoBehaviour
         // 1 x 1 x cos(t) = cos(t) --> we can remove the magnitudes from our equation!
         // Dot(a, b) = cos(t)
 
+        // Again, our goal is to check whether the angle between the view direction & target direction
+        // is less than our FoV angle. If so, then the target is within the FoV
+
         return Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad) < dot;
     }
 
