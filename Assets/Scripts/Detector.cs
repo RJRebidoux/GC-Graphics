@@ -17,11 +17,21 @@ public class Detector : MonoBehaviour
     {
         // AB = B - A
         Vector3 targetDirection = (targetPosition - viewerPosition).normalized;
+        
+        // Dot(A, B) = cos(x) where A & B are unit vectors
         float dot = Vector3.Dot(viewerDirection, targetDirection);
+
+        // So if we want to solve for angle x, we need arc-cos!
+        // x = arccos(cos(x))
+        float angle = Mathf.Acos(dot);
 
         Debug.DrawLine(viewerPosition, viewerPosition + viewerDirection * 5.0f, Color.green);
         Debug.DrawLine(viewerPosition, viewerPosition + targetDirection * 5.0f, Color.red);
-        return dot >= Mathf.Cos(fov * 0.5f * Mathf.Deg2Rad);
+        return angle <= fov * 0.5f * Mathf.Deg2Rad;
+
+        // We don't need arc-cos if we flip our inequality to compare the
+        // cosine instead of the angle itself.
+        //return dot >= Mathf.Cos(fov * 0.5f * Mathf.Deg2Rad);
     }
 
     void Start()
