@@ -30,10 +30,13 @@ Shader "Unlit/Phong"
             }
 
             float4 _LightColor;
+            float _Ambient;
 
             float4 frag (v2f i) : SV_Target
             {
-                return _LightColor;
+                float3 result = float3(0.0, 0.0, 0.0);
+                result += _LightColor * _Ambient;
+                return float4(result, 1.0);
             }
             ENDCG
         }

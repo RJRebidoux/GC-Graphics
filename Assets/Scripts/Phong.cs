@@ -9,6 +9,9 @@ public class Phong : MonoBehaviour
 
     public Color lightColor;
 
+    [Range(0.0f, 1.0f)]
+    public float ambient;
+
     void Start()
     {
         phong = GetComponent<MeshRenderer>().material;
@@ -19,5 +22,6 @@ public class Phong : MonoBehaviour
     void Update()
     {
         phong.SetColor("_LightColor", lightColor);
+        phong.SetFloat("_Ambient", ambient);
     }
 }
