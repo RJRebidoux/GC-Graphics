@@ -7,6 +7,8 @@ public class Phong : MonoBehaviour
     public GameObject[] objects;
     Material phong;
 
+    public Color lightColor;
+
     void Start()
     {
         phong = GetComponent<MeshRenderer>().material;
@@ -16,6 +18,6 @@ public class Phong : MonoBehaviour
 
     void Update()
     {
-        
+        phong.SetColor("_LightColor", lightColor);
     }
 }
