@@ -34,7 +34,7 @@ Shader "Unlit/Phong"
                 return o;
             }
 
-            float3 _LightColor;
+            float4 _LightColor;
             float3 _LightPosition;
             float3 _CameraPosition;
             float _Ambient;
@@ -48,14 +48,14 @@ Shader "Unlit/Phong"
                 float3 V = normalize(_CameraPosition - i.position);
                 float3 R = reflect(-L, N);
 
-                float dotNL = (max(dot(N, L), 0.0));
-                float dotVR = (max(dot(V, R), 0.0));
+                float dotNL = max(dot(N, L), 0.0);
+                float dotVR = max(dot(V, R), 0.0);
 
-                float3 result = float3(0.0, 0.0, 0.0);
-                result += _LightColor * _Ambient;
-                result += _LightColor * _Diffuse * dotNL;
-                result += _LightColor * pow(dotVR, _Specular);
-                return float4(result, 1.0);
+                float4 col = float4(0.0, 0.0, 0.0, 1.0);
+                col += _LightColor * _Ambient;
+                col += _LightColor * _Diffuse * dotNL;
+                col += _LightColor * pow(dotVR, _Specular);
+                return col;
             }
             ENDCG
         }
