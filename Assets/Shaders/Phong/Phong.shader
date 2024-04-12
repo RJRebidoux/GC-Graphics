@@ -34,14 +34,21 @@ Shader "Unlit/Phong"
                 return o;
             }
 
-            float4 _LightColor;
+            float3 _LightColor;
+            float3 _LightPosition;
             float _Ambient;
             float _Diffuse;
 
             float4 frag (v2f i) : SV_Target
             {
+                float3 N = normalize(i.normal);
+                float3 L = normalize(_LightPosition - i.position);
+
+                float dotNL = (max(dot(N, L), 0.0));
+
                 float3 result = float3(0.0, 0.0, 0.0);
                 result += _LightColor * _Ambient;
+                result += _LightColor * _Diffuse * dotNL;
                 return float4(result, 1.0);
             }
             ENDCG
