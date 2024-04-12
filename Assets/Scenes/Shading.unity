@@ -2184,6 +2184,7 @@ MonoBehaviour:
   lightColor: {r: 1, g: 0, b: 0, a: 1}
   ambient: 0.25
   diffuse: 0.75
+  specular: 64
 --- !u!1 &1580778173
 GameObject:
   m_ObjectHideFlags: 0
